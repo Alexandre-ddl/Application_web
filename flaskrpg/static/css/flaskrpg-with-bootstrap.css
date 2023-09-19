@@ -1,0 +1,49 @@
+*:root {
+  --body-padding: 1rem;
+}
+
+form {
+  display: inline;
+}
+
+html {
+  font-family: sans-serif;
+  background: #ddd;
+  /* padding: 1rem;*/
+  height: 100%;
+}
+
+body {
+  max-width: 60rem;
+  margin: auto;
+  min-height: 100%;
+  padding: var(--body-padding);
+  padding-top: 0;
+  /* background: #fff8f0; */
+}
+
+#content {
+  /* background: white; */
+}
+
+body > nav.navbar {
+  margin: auto;
+  margin-left: calc(-1 * var(--body-padding));
+  margin-right: calc(-1 * var(--body-padding));
+  padding: .5rem calc(var(--body-padding));
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #377ba8;
+  margin: 1rem 0;
+}
+
+a {
+  color: #377ba8;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid lightgray;
+}
+

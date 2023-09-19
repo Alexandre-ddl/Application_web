@@ -1,0 +1,86 @@
+{# -*- mode: jinja2; -*- #}
+{% extends 'base.html' %}
+
+{% block header %}
+  <h2>{% block title %}Articles{% endblock %}</h2>
+
+
+  <div class="row">
+    <div class="col text-left">
+      <form action="">
+        <button class="btn btn-outline-primary btn-sm" type="submit" name="sort" value="by_date">les + récents</button>
+      </form>
+      <form action="">
+        <button class="btn btn-outline-primary btn-sm" type="submit" name="sort" value="by_star">les + étoilés</button>
+      </form>
+    </div>
+    <div class="col text-right">
+      {% if g.user %}
+        <a class="btn btn-outline-primary btn-sm" href="{{ url_for('blog.create') }}">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          New Post
+        </a>
+      {% endif %}
+    </div>
+{% endblock %}
+
+{% block content %}
+  {% for post in posts %}
+    <article class="post card my-3">
+      <header class="card-header bg-light">
+        <div class="row">
+          <div class="col-sm">
+            <h2 class="card-title my-0">
+              {{ post.title }}
+            </h2>
+            <div class="text-secondary mt-2">
+              <span>
+		{% if post.avatar_mimetype %}
+		  <image src="{{url_for('auth.avatar', user_id=post.author_id)}}">
+		{% endif %}
+		par {{ post.username }} ({{ post.created.strftime('%Y-%m-%d') }})
+	      </span>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="text-center">
+              {% if post.nb_stars %}
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <br>
+              {{ post.nb_stars }}
+            {% else %}
+              <i class="fa fa-star-o" aria-hidden="true"></i>
+              <br>
+              &nbsp;
+            {% endif %}
+            </div>
+            <div class="small my-2 text-center">
+              {% if g.user.id == post.author_id %}
+                <a class="btn btn-outline-primary btn-sm py-0 px-2" href="{{ url_for('blog.update', id=post.id) }}">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </a>
+              {% else %}
+                {% if g.user %}
+                  <form id="post-delete" action="{{ url_for('blog.vote', id=post.id) }}" method="post">
+                    {% if post.stared_by_user %}
+                      <button class="btn btn-outline-primary btn-sm py-0 px-2" type="submit" title="unvote">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                      </button>
+                    {% else %}
+                      <button class="btn btn-outline-primary btn-sm py-0 px-2" type="submit" title="vote">
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                      </button>
+                    {% endif %}
+                  </form>
+                {% endif %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="body card-body">{{ post.body | safe }}</div>
+    </article>
+  {% else %}
+    <p>No post...</p>
+  {% endfor %}
+{% endblock %}

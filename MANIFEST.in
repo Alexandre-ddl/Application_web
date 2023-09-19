@@ -1,0 +1,9 @@
+# listes de fichier spécifiques non inclus automatiquement
+include LICENSE.rst
+include .flaskenv
+graft sql
+graft instance
+graft flaskrpg/static
+graft flaskrpg/templates
+graft tests
+global-exclude *.pyc

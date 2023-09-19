@@ -1,0 +1,36 @@
+{# -*- mode: jinja2; -*- #}
+{% macro form(title='', body='', id=None) -%}
+  {% if id %}
+    <form id="post-delete" action="{{ url_for('blog.delete', id=id) }}" method="post"></form>
+  {% endif %}
+  <form id="list-posts" action="{{ url_for('blog.index') }}" method="get"></form>
+  <form method="post">
+    <div class="card mb-3">
+      <div class="card-header">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input name="title" class="form-control" id="title" value="{{ request.form['title'] or title }}" required>
+        </div>
+    </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="body">Body</label>
+          <textarea name="body" class="summernote form-control" id="body">{{ request.form['body'] or body }}</textarea>
+        </div>
+    </div>
+    </div>
+    <p class="text-right">
+      {% if id %}
+        <button form="post-delete" class="btn btn-outline-danger btn-sm" type="submit" onclick="return confirm('Are you sure?');">
+          <i class="fa fa-trash" aria-hidden="true"></i> delete
+        </button>
+      {% endif %}
+      <button form="list-posts" class="btn btn-outline-dark btn-sm" type="submit">
+        <i class="fa fa-undo" aria-hidden="true"></i> cancel
+      </button>
+      <button class="btn btn-outline-primary btn-sm" type="submit">
+        <i class="fa fa-save" aria-hidden="true"></i> save
+      </button>
+    </p>
+  </form>
+{% endmacro %}

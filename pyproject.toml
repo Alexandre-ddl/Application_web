@@ -1,0 +1,4 @@
+# fichier permettant d'indiquer le 'build system' utilisé.
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

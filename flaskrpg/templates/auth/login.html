@@ -1,0 +1,20 @@
+{# -*- mode: jinja2; -*- #}
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Log In{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input name="username" id="username" required class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required class="form-control">
+    </div>
+    <input class="btn btn-primary btn-sm" type="submit" value="Log In">
+  </form>
+{% endblock %}
