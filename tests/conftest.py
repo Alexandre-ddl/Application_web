@@ -11,8 +11,8 @@ from sqlalchemy import text
 
 SQLALCHEMY_DATABASE_URI_TEST = "postgresql+psycopg2://flaskrpgadmin:flaskrpgadminpass@localhost:5432/flaskrpgtest"
 
-def execute_sql_file_with_psql(url, filename):
-    """Exécute un script SQL via psql en utilisant l'URL fourni pour se connecter"""
+def execute_sql_file(url, filename):
+    """Exécute un script SQL en utilisant l'URL fourni pour se connecter"""
     engine = create_engine(SQLALCHEMY_DATABASE_URI_TEST, echo=True)
 
     with engine.begin() as con:
@@ -23,13 +23,13 @@ def execute_sql_file_with_psql(url, filename):
 @pytest.fixture(scope="session")
 def create_test_tables():
     """(ré)Initialisation de la structure de la base de test"""
-    execute_sql_file_with_psql(SQLALCHEMY_DATABASE_URI_TEST, "sql/schema-postgresql.sql")
+    execute_sql_file(SQLALCHEMY_DATABASE_URI_TEST, "sql/schema-postgresql.sql")
     return True
     
 @pytest.fixture(autouse=True, scope="session")
 def populate_test_tables(create_test_tables):
     """(ré)Initialisation des données de la base de test"""
-    execute_sql_file_with_psql(SQLALCHEMY_DATABASE_URI_TEST, "sql/populate.sql")
+    execute_sql_file(SQLALCHEMY_DATABASE_URI_TEST, "sql/populate.sql")
     return True
 
 @pytest.fixture
