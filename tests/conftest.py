@@ -4,35 +4,33 @@
 import os
 import pytest
 import warnings
-import subprocess
+
+from sqlalchemy import create_engine
+from sqlalchemy import text
+
 
 SQLALCHEMY_DATABASE_URI_TEST = "postgresql+psycopg2://flaskrpgadmin:flaskrpgadminpass@localhost:5432/flaskrpgtest"
 
 def execute_sql_file_with_psql(url, filename):
     """Exécute un script SQL via psql en utilisant l'URL fourni pour se connecter"""
-    psql_url = url.replace("+psycopg2","")
-    #warnings.warn(psql_url)
-    #warnings.warn(filename)
-    res = subprocess.run(
-        ['/usr/bin/psql', '-f', filename, psql_url],
-        capture_output=True,
-        encoding="utf-8",
-        timeout=3,
-    )
-    if res.stdout != '' :
-        warnings.warn(f"\nSTDOUT: {res.stdout}")
-    if res.stderr != '' :
-        warnings.warn(f"\nSTDERR: {res.stderr}")
-    assert res.returncode == 0
+    engine = create_engine(SQLALCHEMY_DATABASE_URI_TEST, echo=True)
 
+    with engine.begin() as con:
+        with open(filename) as file:
+            query = text(file.read())
+            con.execute(query)
 
-@pytest.fixture(autouse=True, scope="session")
-def init_test_db():
-    """(ré)Initialisation de la structure et des données de la base de test"""
+@pytest.fixture(scope="session")
+def create_test_tables():
+    """(ré)Initialisation de la structure de la base de test"""
     execute_sql_file_with_psql(SQLALCHEMY_DATABASE_URI_TEST, "sql/schema-postgresql.sql")
-    execute_sql_file_with_psql(SQLALCHEMY_DATABASE_URI_TEST, "sql/populate.sql")
     return True
     
+@pytest.fixture(autouse=True, scope="session")
+def populate_test_tables(create_test_tables):
+    """(ré)Initialisation des données de la base de test"""
+    execute_sql_file_with_psql(SQLALCHEMY_DATABASE_URI_TEST, "sql/populate.sql")
+    return True
 
 @pytest.fixture
 def test_app():
