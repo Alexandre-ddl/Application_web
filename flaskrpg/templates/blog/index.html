@@ -39,7 +39,8 @@
 		  <image src="{{url_for('auth.avatar', user_id=post.author_id)}}">
 		{% endif %}
 		par
-    {% if post.fullname %}{{ post.fullname}}{% else %}{{ post.username }}{% endif %}
+    {% from "fullname_or_username.html" import fullname_or_username as fou %}
+    <a href="{{ url_for('profile.profile', user_id=post.author_id)}}">{{ fou(user=post) }}</a>
      ({{ post.created.strftime('%Y-%m-%d') }})
 	      </span>
             </div>

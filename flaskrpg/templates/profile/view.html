@@ -1,0 +1,19 @@
+{# -*- mode: jinja2; -*- #}
+{% extends 'base.html' %}
+
+{% from "fullname_or_username.html" import fullname_or_username as fou %}
+
+{% block header %}
+    <h1>
+        {% block title %}
+            Profile de {{ fou(user=user) }}
+        {% endblock %}
+    </h1>
+{% endblock %}
+
+{% block content %}
+
+    <p>{{ fou(user=user) }}</p>
+    <p>{{ user.profile_desc }}</p>
+
+{% endblock %}

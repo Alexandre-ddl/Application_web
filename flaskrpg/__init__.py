@@ -21,10 +21,11 @@ def create_app(test_config=None):
     db.init_app(app)
 
     # apply the blueprints to the app
-    from flaskrpg import auth, blog
+    from flaskrpg import auth, blog, profile
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
+    app.register_blueprint(profile.bp)
 
     # in another app, you might define a separate main index here with
     # app.route, while giving the blog blueprint a url_prefix, but for

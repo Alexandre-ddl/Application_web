@@ -12,16 +12,14 @@
         {% if g.user %}
           <li class="nav-item active dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {% if g.user.fullname %}
-                 {{ g.user.fullname}} ({{g.user.username}})
-              {% else %}
-                 {{ g.user.username }}
-              {% endif %}
+              {% from "fullname_or_username.html" import fullname_or_username as fou %}
+              {{ fou(user=g.user) }}
 	      {% if g.user.avatar_mimetype %}
 		<image src="{{url_for('auth.avatar', user_id=g.user.id)}}">
 	      {% endif %}
             </a>
             <div class="dropdown-menu" aria-labelledby="userDropdown">
+              <a class="dropdown-item" href="{{ url_for('profile.profile', user_id=g.user.id) }}">View Profile</a>
               <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log Out</a>
             </div>
           </li>
