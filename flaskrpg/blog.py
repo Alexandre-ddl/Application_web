@@ -44,6 +44,7 @@ def index():
             Post.id, Post.title, Post.body, Post.created, Post.author_id,
             User.username,
             User.avatar_mimetype,
+            User.fullname,
             func.count(Star.user_id).label('nb_stars'),
             func.count(Star2.user_id).label('stared_by_user'),
         )
