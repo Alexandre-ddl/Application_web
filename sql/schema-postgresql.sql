@@ -12,6 +12,8 @@ create table "user" (
   id serial primary key,
   username text unique not null,
   password text not null,
+  fullname text,
+  profile_desc text,
   avatar_mimetype text,
   avatar_content bytea,
   constraint avatar check (
