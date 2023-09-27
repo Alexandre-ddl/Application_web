@@ -60,6 +60,8 @@ def register():
     if request.method == "POST":
         username = request.form.get("username", '').strip()
         password = request.form.get("password", '').strip()
+        fullname = request.form.get("fullname", None)
+        profile_desc = request.form.get("profile_desc", None)
         avatar = request.files.get("avatar", None)
         # l'objet 'avatar' est de type 'werkzeug.datastructures.FileStorage' (ou None)
 
@@ -99,12 +101,16 @@ def register():
             if (avatar is None):
                 new_user = User(
                     username=username,
-                    password=generate_password_hash(password)
+                    password=generate_password_hash(password),
+                    fullname=fullname,
+                    profile_desc=profile_desc,
                 )
             else:
                 new_user = User(
                     username=username,
                     password=generate_password_hash(password),
+                    fullname=fullname,
+                    profile_desc=profile_desc,
                     avatar_mimetype = 'image/png',  # imposé puisque conversion en Png
                     avatar_content=png_content.getvalue()
                 )
