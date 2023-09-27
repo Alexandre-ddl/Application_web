@@ -19,7 +19,7 @@
 	      {% endif %}
             </a>
             <div class="dropdown-menu" aria-labelledby="userDropdown">
-              <a class="dropdown-item" href="{{ url_for('profile.profile', user_id=g.user.id) }}">View Profile</a>
+              <a class="dropdown-item" href="{{ url_for('profile.view', user_id=g.user.id) }}">View Profile</a>
               <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log Out</a>
             </div>
           </li>

@@ -16,7 +16,7 @@ from flaskrpg.db import User, Post, Star, db_session
 bp = Blueprint("profile", __name__, url_prefix='/profile')
 
 @bp.route("/<int:user_id>", methods=("GET",))
-def profile(user_id):
+def view(user_id):
     user = db_session.get(User, user_id)
     if user is None:
         flash("Utilisateur introuvable")
